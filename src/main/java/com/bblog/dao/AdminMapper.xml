@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bblog.dao.AdminMapper">
+
+
+    <select id="select" parameterType="Admin" resultType="Admin">
+        select a_id,account,password,name,email,phone_number,available,salt from blog_admin where 1=1
+        <if test="account!=null">
+            and account = #{account}
+        </if>
+        <if test="a_id!=null">
+            and a_id = #{a_id}
+        </if>
+    </select>
+
+    <select id="selectForLogin" parameterType="Admin" resultType="Admin">
+        select a_id,account,password,name,email,phone_number,available,salt from blog_admin where
+        account=#{account} and password=#{password};
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="Admin" >
+        update blog_Admin
+        <set >
+            <if test="password != null" >
+                password = #{password},
+            </if>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="email != null" >
+                email = #{email},
+            </if>
+            <if test="phoneNumber != null" >
+                phone_number = #{phoneNumber},
+            </if>
+            <if test="available != null" >
+                available = #{available},
+            </if>
+        </set>
+        where a_id = #{a_id}
+    </update>
+
+
+
+    <update id="banByPrimaryKey" parameterType="java.lang.String" >
+        update blog_Admin set available = '0'
+        where a_id = #{a_id}
+    </update>
+
+    <update id="activeByPrimaryKey" parameterType="java.lang.String" >
+        update blog_Admin set available = '1'
+        where a_id = #{a_id}
+    </update>
+
+
+
+
+    <!--<select id="selectAllAdmin" parameterMap="getPageBean" resultMap="BaseResultMap">-->
+        <!--SELECT a.a_id,a.account,a.name,a.email,a.phone_number-->
+        <!--FROM blog_admin a-->
+        <!--<if test="searchText !=null">-->
+            <!--WHERE  a.account LIKE #{searchText}-->
+            <!--OR a.name LIKE #{searchText} OR  a.email LIKE #{searchText}-->
+            <!--OR a.phone_number LIKE #{searchText}-->
+        <!--</if>-->
+        <!--<if test="sort != null">-->
+            <!--ORDER BY ${sort} ${order}-->
+        <!--</if>-->
+        <!--limit #{pageOffset},#{size}-->
+    <!--</select>-->
+    <!--<select id="countAll" parameterMap="getPageBean" resultType="int">-->
+        <!--SELECT count(*)-->
+        <!--FROM blog_admin a-->
+        <!--<if test="searchText !=null">-->
+            <!--WHERE  a.account LIKE #{searchText}-->
+            <!--OR a.name LIKE #{searchText} OR  a.email LIKE #{searchText}-->
+            <!--OR a.phone_number LIKE #{searchText}-->
+        <!--</if>-->
+        <!--<if test="sort != null">-->
+            <!--ORDER BY #{sort} #{order}-->
+        <!--</if>-->
+    <!--</select>-->
+    <insert id="add" parameterType="Admin">
+        insert into blog_admin VALUES(#{a_id},#{account},#{password},#{name},#{email},#{phone_number},#{available},#{salt});
+    </insert>
+
+
+    <select id="findSysUserByUserCode" parameterType="java.lang.String" resultType="Admin">
+        select * from blog_admin where account = #{account}
+    </select>
+
+
+
+
+
+
+    <cache/>
+
+
+</mapper>

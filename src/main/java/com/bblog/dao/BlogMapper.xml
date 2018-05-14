@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bblog.dao.BlogMapper">
+
+   <insert id="insertBlog" parameterType="Blog">
+       insert into blog_blog VALUES (#{blogId},#{title},#{col},#{sign},#{content},#{summary},#{releaseDate},#{clickHit},#{replyHit},#{updateTime})
+   </insert>
+
+    <select id="select" parameterType="Blog" resultType="Blog">
+            select * from blog_blog where 1=1
+            <if test="blogId!=null">
+                and blogId = #{blogId}
+            </if>
+            <if test="title!=null">
+                and title like #{title}
+            </if>
+            <if test="sign!=null">
+                and sign = #{sign}
+            </if>
+            <if test="col!=null">
+                and col = #{col}
+            </if>
+        order by releaseDate
+    </select>
+
+    <update id="update" parameterType="Blog">
+        update blog_blog set title = #{title},col = #{col},sign = #{sign},content = #{content},summary = #{summary},updateTime = #{updateTime} where blogId=#{blogId}
+
+    </update>
+    <delete id="delete" parameterType="java.lang.String">
+        DELETE FROM Blog_blog WHERE blogId = #{blogId}
+
+    </delete>
+    <select id="selectByClick" resultType="Blog">
+        SELECT * from Blog_blog order by clickHit limit 5;
+    </select>
+
+    <cache/>
+</mapper>

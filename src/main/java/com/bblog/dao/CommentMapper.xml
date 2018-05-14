@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bblog.dao.CommentMapper">
+
+    <select id="selectAll" parameterType="java.lang.String" resultType="Comment">
+      SELECT * from Blog_Comment where available = '1' order by createTime
+    </select>
+
+    <update id="banByPrimaryKey" parameterType="java.lang.String" >
+        update blog_comment set available = '0'
+        where cId = #{cId}
+    </update>
+
+
+    <update id="activeByPrimaryKey" parameterType="java.lang.String" >
+        update blog_comment set available = '1'
+        where cId = #{cId}
+    </update>
+    <select id="select" parameterType="Comment" resultType="Comment">
+        SELECT * from Blog_comment;
+    </select>
+    <insert id="add" parameterType="Comment">
+        insert into blog_comment VALUES(#{cId},#{aName},#{aId},#{bId},#{comment},#{createTime},#{available});
+    </insert>
+    <cache/>
+</mapper>
